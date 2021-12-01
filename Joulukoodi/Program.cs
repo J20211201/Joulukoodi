@@ -2009,6 +2009,7 @@ namespace Joulukoodi
 ,3798 };
 
             var tulos = tehtavat.Tehtava1(teht1);
+            var tulos1b = tehtavat.Tehtava1b(teht1);
             Console.WriteLine("Hello World!");
         }
     }
