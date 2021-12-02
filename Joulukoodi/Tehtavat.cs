@@ -13,9 +13,9 @@ namespace Joulukoodi
 
             for (int i = 0; i < luvut.Length; i++)
             {
-                if (i>0)
+                if (i > 0)
                 {
-                    if (luvut[i]> edellinenSyvyys)
+                    if (luvut[i] > edellinenSyvyys)
                     {
                         resultLarger++;
                     }
@@ -50,8 +50,8 @@ namespace Joulukoodi
             for (int i = 0; i < lstLuvut.Count; i++)
             {
                 if (i > 0)
-                { 
-                    if(lstLuvut[i]>edellinenSyvyys)
+                {
+                    if (lstLuvut[i] > edellinenSyvyys)
                     {
                         resultLarger++;
                     }
@@ -60,6 +60,67 @@ namespace Joulukoodi
             }
 
             return resultLarger;
+        }
+
+
+        public int Tehtava2(string[] luvut)
+        {
+            int result = 0;
+            int horizontal_pos = 0;
+            int depth = 0;
+
+            for (int i = 0; i < luvut.Length; i++)
+            {
+                string[] splitattu = luvut[i].Split(' ');
+
+                if (splitattu[0]== "forward")
+                {
+                    horizontal_pos += Int32.Parse(splitattu[1].Trim());
+                }
+                else if (splitattu[0] == "down")
+                {
+                    depth += Int32.Parse(splitattu[1].Trim());
+                }
+                else if (splitattu[0] == "up")
+                {
+                    depth -= Int32.Parse(splitattu[1].Trim());
+                }
+            }
+
+            result = horizontal_pos * depth;
+
+            return result;
+        }
+
+        public int Tehtava2b(string[] luvut)
+        {
+            int result = 0;
+            int horizontal_pos = 0;
+            int depth = 0;
+            int aim = 0;
+
+            for (int i = 0; i < luvut.Length; i++)
+            {
+                string[] splitattu = luvut[i].Split(' ');
+
+                if (splitattu[0] == "forward")
+                {
+                    depth += aim * Int32.Parse(splitattu[1].Trim());
+                    horizontal_pos += Int32.Parse(splitattu[1].Trim());
+                }
+                else if (splitattu[0] == "down")
+                {
+                    aim += Int32.Parse(splitattu[1].Trim());
+                }
+                else if (splitattu[0] == "up")
+                {
+                    aim -= Int32.Parse(splitattu[1].Trim());
+                }
+            }
+
+            result = horizontal_pos * depth;
+
+            return result;
         }
     }
 }
