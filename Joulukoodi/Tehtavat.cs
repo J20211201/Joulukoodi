@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Joulukoodi
@@ -119,6 +120,43 @@ namespace Joulukoodi
             }
 
             result = horizontal_pos * depth;
+
+            return result;
+        }
+
+        public int Tehtava3(string[] luvut,int textlenght)
+        {
+            int result = 0;
+            int gamma = 0;
+            int epsilon = 0;
+            int index = 0;
+            string mostcommon = "";
+            string leastcommon = "";
+
+            for(int i = 0; i < textlenght; i++)
+            {
+                index = i;
+                mostcommon += luvut
+                .GroupBy(i => i.Substring(index, 1))
+                .OrderByDescending(g => g.Count())
+                .Take(1)
+                .Select(g => g.Key).First().ToString();
+            }
+
+            for (int i = 0; i < textlenght; i++)
+            {
+                index = i;
+                leastcommon += luvut
+                .GroupBy(i => i.Substring(index, 1))
+                .OrderBy(g => g.Count())
+                .Take(1)
+                .Select(g => g.Key).First().ToString();
+            }
+
+            gamma = Convert.ToInt32(mostcommon, 2);
+            epsilon = Convert.ToInt32(leastcommon, 2);
+
+            result = gamma * epsilon;
 
             return result;
         }
