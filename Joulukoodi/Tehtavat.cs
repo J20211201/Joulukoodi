@@ -133,7 +133,7 @@ namespace Joulukoodi
             string mostcommon = "";
             string leastcommon = "";
 
-            for(int i = 0; i < textlenght; i++)
+            for (int i = 0; i < textlenght; i++)
             {
                 index = i;
                 mostcommon += luvut
@@ -159,6 +159,146 @@ namespace Joulukoodi
             result = gamma * epsilon;
 
             return result;
+        }
+
+        public int Tehtava3b(string[] luvut, int textlenght)
+        {
+            int result = 0;
+            int msgzero = 0;
+            int msgone = 0;
+            int index = 0;
+
+            List<string> lstLuvut = new List<string>();
+
+            for(int i = 0; i < luvut.Length; i++)
+            {
+                lstLuvut.Add(luvut[i]);
+            }
+
+            List<string> lstLuvutb = new List<string>();
+
+            for (int i = 0; i < luvut.Length; i++)
+            {
+                lstLuvutb.Add(luvut[i]);
+            }
+
+            for (int i = 0; i < textlenght; i++)
+            {
+                index = i;
+                
+                msgzero = lstLuvut.Where(l => l.Substring(index, 1) == "0").Count();
+                msgone = lstLuvut.Where(l => l.Substring(index, 1) == "1").Count();
+
+                if (msgone> msgzero && (msgzero > 0 && msgone > 0))
+                {
+                    lstLuvut.RemoveAll(x => x.Substring(index, 1) == "0");
+                }
+                else if (msgzero> msgone && (msgzero > 0 && msgone > 0))
+                {
+                    lstLuvut.RemoveAll(x => x.Substring(index, 1) == "1");
+                }
+
+                if (i==(textlenght-1))
+                {
+                    var luvutLsta = lstLuvut;
+                }
+            }
+
+            for (int i = 0; i < textlenght; i++)
+            {
+                index = i;
+
+                msgzero = lstLuvutb.Where(l => l.Substring(index, 1) == "0").Count();
+                msgone = lstLuvutb.Where(l => l.Substring(index, 1) == "1").Count();
+
+                if (msgone < msgzero && (msgzero>0&& msgone>0))
+                {
+                    lstLuvutb.RemoveAll(x => x.Substring(index, 1) == "0");
+                }
+                else if (msgzero < msgone && (msgzero > 0 && msgone > 0))
+                {
+                    lstLuvutb.RemoveAll(x => x.Substring(index, 1) == "1");
+                }
+
+                if (i == (textlenght - 1))
+                {
+                    var luvutLstb = lstLuvutb;
+                }
+            }
+
+            return result;
+        }
+
+        public int Teht4(List<BingoCard> lstbcard, int[] numbers)
+        {
+            int result = 0;
+
+            List<BingoCardScore> lstBingoCardScore = new List<BingoCardScore>();
+
+
+            foreach (var bcard in lstbcard)
+            {
+                result = result + 1;
+                BingoCardScore score = new BingoCardScore();
+                score = CheckForLine(bcard.card,numbers, result);
+
+                if(score.bingo==1)
+                {
+                    lstBingoCardScore.Add(score);
+                }
+                else
+                {
+                    int huti = score.cardNro;
+                }
+            }
+
+            
+
+            return result;
+        }
+
+        static BingoCardScore CheckForLine(int[,] bingoCard, int[] numbers,int cardnro)
+        {
+            BingoCardScore bscore = new BingoCardScore();
+            bscore.bingo = 0;
+            bscore.cardNro = cardnro;
+            List<int> tulos = new List<int>();
+            int lukuBingo = 0;
+
+            for (int row = 0; row < bingoCard.GetLength(0); row++)
+            {
+                // For a 'line', we only need to match all columns in a row, 
+                // so create a counter to track that here
+                int colMatchesInRow = 0;
+
+                for (int col = 0; col < bingoCard.GetLength(1); col++)
+                {
+                    for (int numIndex = 0; numIndex < numbers.Length; numIndex++)
+                    {
+                        if (bingoCard[row, col] == numbers[numIndex])
+                        {
+                            lukuBingo = bingoCard[row, col];
+                            if (bscore.bingo == 0)
+                            {
+                                tulos.Add(bingoCard[row, col]);
+                            }
+                            // Match found! Increment our counter and break from this loop                           
+                            colMatchesInRow++;
+                            break;
+                        }
+                    }
+                }
+
+                // If our counter equals the number of columns, return 'true'
+                if (colMatchesInRow == bingoCard.GetLength(1))
+                {
+                    bscore.bingo = 1;
+                    bscore.tulos = tulos;
+                }
+            }
+
+            // If we get this far, we never found a 'line', so return 'false'
+            return bscore;
         }
     }
 }
