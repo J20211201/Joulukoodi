@@ -197,6 +197,10 @@ namespace Joulukoodi
                 {
                     lstLuvut.RemoveAll(x => x.Substring(index, 1) == "1");
                 }
+                else if (msgone ==  msgzero && (msgzero > 0 && msgone > 0))
+                {
+                    lstLuvut.RemoveAll(x => x.Substring(index, 1) == "0");
+                }
 
                 if (i==(textlenght-1))
                 {
@@ -216,6 +220,10 @@ namespace Joulukoodi
                     lstLuvutb.RemoveAll(x => x.Substring(index, 1) == "0");
                 }
                 else if (msgzero < msgone && (msgzero > 0 && msgone > 0))
+                {
+                    lstLuvutb.RemoveAll(x => x.Substring(index, 1) == "1");
+                }
+                else if (msgzero == msgone && (msgzero > 0 && msgone > 0))
                 {
                     lstLuvutb.RemoveAll(x => x.Substring(index, 1) == "1");
                 }
@@ -262,8 +270,6 @@ namespace Joulukoodi
             BingoCardScore bscore = new BingoCardScore();
             bscore.bingo = 0;
             bscore.cardNro = cardnro;
-            List<int> tulos = new List<int>();
-            int lukuBingo = 0;
 
             for (int row = 0; row < bingoCard.GetLength(0); row++)
             {
@@ -276,12 +282,7 @@ namespace Joulukoodi
                     for (int numIndex = 0; numIndex < numbers.Length; numIndex++)
                     {
                         if (bingoCard[row, col] == numbers[numIndex])
-                        {
-                            lukuBingo = bingoCard[row, col];
-                            if (bscore.bingo == 0)
-                            {
-                                tulos.Add(bingoCard[row, col]);
-                            }
+                        {                           
                             // Match found! Increment our counter and break from this loop                           
                             colMatchesInRow++;
                             break;
@@ -289,15 +290,12 @@ namespace Joulukoodi
                     }
                 }
 
-                // If our counter equals the number of columns, return 'true'
+                // If our counter equals the number of columns
                 if (colMatchesInRow == bingoCard.GetLength(1))
                 {
                     bscore.bingo = 1;
-                    bscore.tulos = tulos;
                 }
             }
-
-            // If we get this far, we never found a 'line', so return 'false'
             return bscore;
         }
     }
